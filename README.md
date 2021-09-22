@@ -9,8 +9,3 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 To be filled with more information once we realize what we want this document to represent.
 
-# Testing
-
-This section was added via VSCode and I am attempting to create a pull request within VSCode to the main branch.
-
-this line was added via VSCode when I found out how to use GitHub through VSCode 
