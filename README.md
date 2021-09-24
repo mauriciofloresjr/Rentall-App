@@ -9,3 +9,6 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 To be filled with more information once we realize what we want this document to represent.
 
+# Edit
+
+This was made in the GitHub repo itself. Testing to see how branches work in GitHub.
