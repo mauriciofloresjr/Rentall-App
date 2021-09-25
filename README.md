@@ -9,3 +9,6 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 To be filled with more information once we realize what we want this document to represent.
 
+
+#Making an edit to test a proposed edit
+https://docs.expo.dev/get-started/installation/
