@@ -9,6 +9,8 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 To be filled with more information once we realize what we want this document to represent.
 
+# Commit from VSCode
 
+This commit is from VSCode, and it was committed to main branch
 
 
