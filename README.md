@@ -20,3 +20,9 @@ This is a test to see if I can actually make a Pull Request from VSCode.
 # Random section from readme-edits branch
 
 This was made in VSCode specifically for the readme-edits branch.
+
+# Testing!
+
+This is a test to see if I can commit from VSCode to GitHub.
+
+
