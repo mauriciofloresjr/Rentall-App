@@ -9,3 +9,7 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 To be filled with more information once we realize what we want this document to represent.
 
+# Testing!
+
+This is a test to see if I can commit from VSCode to GitHub.
+
