@@ -7,7 +7,10 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 # TODO Add Stuff Here
 
-To be filled with more information once we realize what we want this document to represent.
+
+# **Milestones**
+10/15/21 - User Authentication/Login Added
+
 
 
 
