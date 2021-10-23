@@ -3,7 +3,8 @@ import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, P
 
 const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
 
-const AuthScreen = () => {
+
+function AuthScreen({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -89,8 +90,8 @@ const AuthScreen = () => {
                         {!isLogin && <TextInput style={styles.input} placeholder="Name" onChangeText={setName}></TextInput>}
                         <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" onChangeText={setPassword}></TextInput>
                         <Text style={[styles.message, {color: isError ? 'red' : 'green'}]}>{message ? getMessage() : null}</Text>
-                        <TouchableOpacity style={styles.button} onPress={onSubmitHandler}>
-                            <Text style={styles.buttonText}>Done</Text>
+                        <TouchableOpacity style={styles.button} onPress={() => { onSubmitHandler; navigation.navigate('Listings') }}>
+                            <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonAlt} onPress={onChangeHandler}>
                             <Text style={styles.buttonAltText}>{isLogin ? 'Sign Up' : 'Log In'}</Text>
@@ -98,7 +99,7 @@ const AuthScreen = () => {
                     </View>    
                 </View>
             </View>
-        </ImageBackground>
+        </ImageBackground>    
     );
 };
 
