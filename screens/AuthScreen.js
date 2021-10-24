@@ -65,6 +65,7 @@ function AuthScreen({ navigation }) {
                     onLoggedIn(jsonRes.token);
                     setIsError(false);
                     setMessage(jsonRes.message);
+                    navigation.navigate('Listings')
                 }
             } catch (err) {
                 console.log(err);
@@ -90,7 +91,7 @@ function AuthScreen({ navigation }) {
                         {!isLogin && <TextInput style={styles.input} placeholder="Name" onChangeText={setName}></TextInput>}
                         <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" onChangeText={setPassword}></TextInput>
                         <Text style={[styles.message, {color: isError ? 'red' : 'green'}]}>{message ? getMessage() : null}</Text>
-                        <TouchableOpacity style={styles.button} onPress={() => { onSubmitHandler; navigation.navigate('Listings') }}>
+                        <TouchableOpacity style={styles.button} onPress={onSubmitHandler } >
                             <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonAlt} onPress={onChangeHandler}>
