@@ -100,6 +100,7 @@ function AuthScreen({ navigation }) {
                     </View>    
                 </View>
             </View>
+            <Text style={styles.buttonText}>{isLogin ? '' : ' \n Passwords must have: \n at least 8 characters \n a letter \n a number \n a special character: \n i.e. !@#$%^&*  '}</Text>
         </ImageBackground>    
     );
 };
