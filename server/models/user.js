@@ -17,13 +17,11 @@ const User = sequelize.define('users', {
    },
    name: {
       type: Sequelize.STRING,
+      allowNull:false,
    },
-   //Another validation for password, regex requires 8 characters 
-   //with at least 1 letter, 1 number, and 1 special character
    password: {
       type: Sequelize.STRING,
       allowNull: false,
-      validate: {is: "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"}
    },
 });
 
