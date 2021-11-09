@@ -17,7 +17,7 @@ const AddRentalScreen = ({ navigation }) => {
     const [message, setMessage] = useState('');
 
     //Possibly change categories to be implemented with a dropdown menu
-    //Function validates correct category, ignores case
+    //Function kindof validates correct category, does ignores case
     function CategoryValidator(categories, input) {
         var i = categories.length;
 
