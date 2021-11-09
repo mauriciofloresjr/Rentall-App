@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
 
-
+//To properly test this and all other pages, change the API_URL line to contain your local IPv4 address
 const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.2.3.90:5000';
 
 //Checks an attempted user password against the regular expression.
