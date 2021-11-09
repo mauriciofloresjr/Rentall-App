@@ -2,7 +2,24 @@ import React, { useState } from 'react';
 import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
 
 
+const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.2.3.90:5000';
+
+//Checks an attempted user password against the regular expression.
+//The regular expression calls for: At least one uppercase English letter,
+//at least one lower case English letter, at least one digit,
+//at least one special character, and at least 8 characters in length
+function passwordValidator(password) {
+    var re = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+    if (re.test(password)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
+
 
 //Checks an attempted user password against the regular expression.
 //The regular expression calls for: At least one uppercase English letter,
@@ -38,60 +55,62 @@ function AuthScreen({ navigation }) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`, 
+                'Authorization': `Bearer ${token}`,
             },
         })
-        .then(async res => { 
-            try {
-                const jsonRes = await res.json();
-                if (res.status === 200) {
-                    setMessage(jsonRes.message);
-                }
-            } catch (err) {
+            .then(async res => {
+                try {
+                    const jsonRes = await res.json();
+                    if (res.status === 200) {
+                        setMessage(jsonRes.message);
+                    }
+                } catch (err) {
+                    console.log(err);
+                };
+            })
+            .catch(err => {
                 console.log(err);
-            };
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            });
     }
 
     const onSubmitHandler = () => {
         //Before submiting to server, checks password with validator function
-        if (passwordValidator (password)) {
+
+        if (passwordValidator(password)) {
             //a valid password was entered, generate JSON
-        const payload = {
-            email,
-            name,
-            password,
-        };
-        fetch(`${API_URL}/${isLogin ? 'login' : 'signup'}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        })
-        .then(async res => { 
-            try {
-                const jsonRes = await res.json();
-                if (res.status !== 200) {
-                    setIsError(true);
-                    setMessage(jsonRes.message);
-                } else {
-                    onLoggedIn(jsonRes.token);
-                    setIsError(false);
-                    setMessage(jsonRes.message);
-                    navigation.navigate('Listings')
-                }
-            } catch (err) {
-                console.log(err);
+            const payload = {
+                email,
+                name,
+                password,
             };
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }
+            fetch(`${API_URL}/${isLogin ? 'login' : 'signup'}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(async res => {
+                    try {
+                        const jsonRes = await res.json();
+                        if (res.status !== 200) {
+                            setIsError(true);
+                            setMessage(jsonRes.message);
+                        } else {
+                            onLoggedIn(jsonRes.token);
+                            setIsError(false);
+                            setMessage(jsonRes.message);
+                            navigation.navigate('Listings')
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    };
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        
         //an invalid password was entered, return an Error message to user
         else{
             setIsError(true)
@@ -105,10 +124,11 @@ function AuthScreen({ navigation }) {
     }
 
     return (
-        <ImageBackground source={require('../public/images/basic-back.png')} style={styles.image}>
+        < ImageBackground source={require('../public/images/basic-back.png')} style={styles.image} >
             <View style={styles.card}>
                 <Text style={styles.heading}>{isLogin ? 'Login' : 'Signup'}</Text>
                 <View style={styles.form}>
+
                     <View style={styles.inputs}>
                         <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={setEmail}></TextInput>
                         {!isLogin && <TextInput style={styles.input} placeholder="Name" onChangeText={setName}></TextInput>}
@@ -120,10 +140,11 @@ function AuthScreen({ navigation }) {
                         <TouchableOpacity style={styles.buttonAlt} onPress={onChangeHandler}>
                             <Text style={styles.buttonAltText}>{isLogin ? 'Sign Up' : 'Log In'}</Text>
                         </TouchableOpacity>
-                    </View>    
+                    </View>
                 </View>
             </View>
             <Text style={styles.buttonText}>{isLogin ? '' : ' \n Passwords must have: \n at least 8 characters \n a letter \n a number \n a special character: \n i.e. !@#$%^&*  '}</Text>
+        </ImageBackground >
         </ImageBackground>    
     );
 };
@@ -133,10 +154,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
-    },  
+    },
     card: {
         flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         width: '80%',
         marginTop: '40%',
         borderRadius: 20,
@@ -162,18 +183,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: '10%',
-    },  
+    },
     input: {
         width: '80%',
         borderBottomWidth: 1,
         borderBottomColor: 'black',
         paddingTop: 10,
-        fontSize: 16, 
+        fontSize: 16,
         minHeight: 40,
     },
     button: {
         width: '80%',
-        backgroundColor: 'black',
+        backgroundColor: '#21C489', //changed color for visual spice
         height: 40,
         borderRadius: 50,
         justifyContent: 'center',

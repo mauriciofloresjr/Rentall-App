@@ -1,101 +1,165 @@
 import React, { useState } from 'react';
-import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, FlatList, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { renderNode } from 'react-native-elements/dist/helpers';
+import { Image } from 'react-native';
+import COLORS from '../consts/colors';
+import { Icon } from 'react-native-elements';
+import rentals from '../consts/rentals';
+
+// Declaring width of screen with 30 pixel padding
+const width = Dimensions.get('screen').width / 2 - 30
+
+const RentalScreen = ({ navigation }) => {
+    // Adding to this array will update categories accordingly
+    const categories = ['COOKING', 'FURNITURE', 'TOYS', 'TECH'];
+
+    const [categoryIndex, setCategoryIndex] = useState(0)
+
+    const CategoryList = () => {
+        return (
+            <View style={style.categoryContainer}>
+                {/* Iterates through categories and maps them to items and indices. */}
+                {/* This allows us to click on different categories and have them change color */}
+                {categories.map((item, index) => (
+                    <TouchableOpacity key={index} activeOpacity={0.8} onPress={() => setCategoryIndex(index)}>
+                        <Text style={[style.categoryText, categoryIndex == index && style.categoryTextSelected]}>
+                            {item}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        );
+    };
+
+    // System for the Card objects
+    const Card = ({ rental }) => {
+        return (
+
+            <View style={style.card}>
+                <View style={{ height: 100, alignItems: 'center', marginTop: 10 }}>
+                    {/* Image in card */}
+                    <Image style={{ flex: 1, resizeMode: 'contain' }} source={rental.img} />
+                </View>
+                {/* Rental item name */}
+                <Text style={{ fontWeight: 'bold', fontSize: 17, marginTop: 20, marginBottom: 5, color: COLORS.black }}> {rental.name} </Text>
+                {/* View for storing Price per Day and Rent button*/}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
+                    <Text style={{ fontSize: 19, fontWeight: 'bold', color: COLORS.darkGreen }}>${rental.price}/day</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("Details", rental)} >
+                        <View style={{ height: 35, width: 50, backgroundColor: COLORS.darkGreen, borderRadius: 5, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 15, color: COLORS.white, fontWeight: 'bold' }}>Rent</Text>
+                        </View>
+                    </TouchableOpacity >
+                </View>
+            </View>
 
 
+        )
+    }
 
-function RentalScreen ({ navigation }) {
     return (
-        <ImageBackground source={require('../public/images/basic-back.png')} style={styles.image}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Screen to display available listings!</Text>
-      </View>
-      </ImageBackground>
-    );
-  }
+        // Entire screen is in this SafeAreaView
+        <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white }}>
+            {/* Header which includes logo and "Rentall" name */}
+            <View style={style.header}>
+                <View style={{ flexDirection: 'row', marginLeft: 90 }}>
+                    {/* Adding Image and Text to header */}
+                    <Image source={require('../public/images/Rentall-Logo.png')} style={{ width: 50, height: 60, marginRight: 20 }} />
+                    <Text style={{ fontSize: 40, fontWeight: 'bold', color: COLORS.black, marginTop: 17 }}>Rentall</Text>
+                </View>
+            </View>
+            {/* View container for Search Bar and Sort Button */}
+            <View style={{ marginTop: 30, flexDirection: 'row' }}>
+                {/* Search bar */}
+                <View style={style.searchContainer}>
+                    <Icon name="search" size={25} style={{ marginLeft: 20 }} />
+                    <TextInput placeholder="Search" style={style.input} />
+                </View>
+                {/* Sort button */}
+                <TouchableOpacity onPress={() => navigation.navigate("Add")}>
+                    <View style={style.sortBtn}>
+                        <Icon name="add" size={30} color={COLORS.white} />
+                    </View>
+                </TouchableOpacity>
+            </View>
+            {/* View for list of Categories, Categories are declared above */}
+            <CategoryList />
+            {/* This FlatList contains the displays for the individual items, this includes numColumns and data being pulled from rentals.js */}
+            <FlatList
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    marginTop: 10,
+                    paddingBottom: 50,
+                }}
+                numColumns={2}
+                data={rentals}
+                renderItem={({ item }) => <Card rental={item} />}
+            />
+        </SafeAreaView >
+    )
 
+}
 
-
-
-
-
-const styles = StyleSheet.create({
-    image: {
+const style = StyleSheet.create({
+    header: {
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    searchContainer: {
+        height: 50,
+        backgroundColor: COLORS.gray,
+        borderRadius: 10,
         flex: 1,
-        width: '100%',
+        flexDirection: 'row',
         alignItems: 'center',
-    },  
-    card: {
-        flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.4)',
-        width: '80%',
-        marginTop: '40%',
-        borderRadius: 20,
-        maxHeight: 380,
-        paddingBottom: '30%',
     },
-    heading: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginLeft: '10%',
-        marginTop: '5%',
-        marginBottom: '30%',
-        color: 'black',
-    },
-    form: {
-        flex: 1,
-        justifyContent: 'space-between',
-        paddingBottom: '5%',
-    },
-    inputs: {
-        width: '100%',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '10%',
-    },  
     input: {
-        width: '80%',
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
-        paddingTop: 10,
-        fontSize: 16, 
-        minHeight: 40,
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: COLORS.black,
+        flex: 1,
     },
-    button: {
-        width: '80%',
-        backgroundColor: 'black',
-        height: 40,
-        borderRadius: 50,
+    sortBtn: {
+        marginLeft: 10,
+        height: 50,
+        width: 50,
+        backgroundColor: COLORS.green,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 5,
+        borderRadius: 10,
     },
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: '400'
+    categoryContainer: {
+        flexDirection: 'row',
+        marginTop: 30,
+        marginBottom: 20,
+        justifyContent: 'space-between',
     },
-    buttonAlt: {
-        width: '80%',
-        borderWidth: 1,
-        height: 40,
-        borderRadius: 50,
-        borderColor: 'black',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 5,
+    categoryText: {
+        fontSize: 15,
+        color: "grey",
+        fontWeight: 'bold'
     },
-    buttonAltText: {
-        color: 'black',
-        fontSize: 16,
-        fontWeight: '400',
+    categoryTextSelected: {
+        color: COLORS.green,
+        paddingBottom: 5,
+        borderBottomWidth: 2,
+        borderColor: COLORS.green,
     },
-    message: {
-        fontSize: 16,
-        marginVertical: '5%',
-    },
+    card: {
+        height: 225,
+        backgroundColor: COLORS.gray,
+        width,
+        marginHorizontal: 2,
+        borderRadius: 10,
+        marginBottom: 20,
+        padding: 15,
+    }
 });
+
+
 
 export default RentalScreen;
