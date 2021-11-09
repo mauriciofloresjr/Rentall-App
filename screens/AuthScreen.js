@@ -18,22 +18,6 @@ function passwordValidator(password) {
 }
 
 
-const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
-
-
-//Checks an attempted user password against the regular expression.
-//The regular expression calls for: At least one uppercase English letter,
-//at least one lower case English letter, at least one digit,
-//at least one special character, and at least 8 characters in length
-function passwordValidator(password) {
-    var re = new RegExp ("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
-    if (re.test(password)){
-        return true;
-    } else{
-        return false;
-    }
-}
-
 
 function AuthScreen({ navigation }) {
 
