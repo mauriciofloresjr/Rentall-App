@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
 
-//To properly test this and all other pages, change the API_URL line to contain your local IPv4 address
-const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.2.3.90:5000';
+const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
 
 //Checks an attempted user password against the regular expression.
 //The regular expression calls for: At least one uppercase English letter,
@@ -16,7 +15,6 @@ function passwordValidator(password) {
         return false;
     }
 }
-
 
 
 function AuthScreen({ navigation }) {
@@ -59,7 +57,6 @@ function AuthScreen({ navigation }) {
 
     const onSubmitHandler = () => {
         //Before submiting to server, checks password with validator function
-
         if (passwordValidator(password)) {
             //a valid password was entered, generate JSON
             const payload = {
@@ -94,14 +91,13 @@ function AuthScreen({ navigation }) {
                     console.log(err);
                 });
         }
-        
         //an invalid password was entered, return an Error message to user
-        else{
+        else {
             setIsError(true)
             setMessage("Invalid Password.")
         }
     };
-    
+
     const getMessage = () => {
         const status = isError ? `Error: ` : `Success: `;
         return status + message;
@@ -117,8 +113,8 @@ function AuthScreen({ navigation }) {
                         <TextInput style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={setEmail}></TextInput>
                         {!isLogin && <TextInput style={styles.input} placeholder="Name" onChangeText={setName}></TextInput>}
                         <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" onChangeText={setPassword}></TextInput>
-                        <Text style={[styles.message, {color: isError ? 'red' : 'green'}]}>{message ? getMessage() : null}</Text>
-                        <TouchableOpacity style={styles.button} onPress={onSubmitHandler } >
+                        <Text style={[styles.message, { color: isError ? 'red' : 'green' }]}>{message ? getMessage() : null}</Text>
+                        <TouchableOpacity style={styles.button} onPress={onSubmitHandler} >
                             <Text style={styles.buttonText}>Submit</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonAlt} onPress={onChangeHandler}>
@@ -129,7 +125,6 @@ function AuthScreen({ navigation }) {
             </View>
             <Text style={styles.buttonText}>{isLogin ? '' : ' \n Passwords must have: \n at least 8 characters \n a letter \n a number \n a special character: \n i.e. !@#$%^&*  '}</Text>
         </ImageBackground >
-        </ImageBackground>    
     );
 };
 

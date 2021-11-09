@@ -10,12 +10,56 @@ import rentals from '../consts/rentals';
 
 // Declaring width of screen with 30 pixel padding
 const width = Dimensions.get('screen').width / 2 - 30
+const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
 
-const RentalScreen = ({ navigation }) => {
+
+const RentalScreen = ({ navigation }) =>  {
     // Adding to this array will update categories accordingly
     const categories = ['COOKING', 'FURNITURE', 'TOYS', 'TECH'];
+    const [message, setMessage] = useState('');
+    const [isError, setIsError] = useState(false);
 
     const [categoryIndex, setCategoryIndex] = useState(0)
+
+    //this function requires to pass a description, i.e. Toys, to get all Toys results
+    //so get listings where description = categories[1] maybe
+    const onGetTheListings = () => {
+
+
+        fetch(`${API_URL}/getListings`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            //body: JSON.stringify(payload),
+            //body not allowed for GET or HEAD requests 
+        })
+            .then(async res => { 
+                try {
+                    const jsonRes = await res.json();
+                    if (res.status === 200) {
+                        //setMessage(jsonRes.message);
+                        setMessage(jsonRes.message);
+                        //return JSON.stringify(payload)
+                    }
+                } catch (err) {
+                    console.log(err);
+                    setIsError(true);
+                    setMessage(jsonRes.message);
+                };
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    
+    };
+    
+    const getMessage = () => {
+        const status = isError ? `Error: ` : `Success: `;
+        return  message + status;
+    }
+
+
 
     const CategoryList = () => {
         return (
@@ -98,6 +142,16 @@ const RentalScreen = ({ navigation }) => {
                 data={rentals}
                 renderItem={({ item }) => <Card rental={item} />}
             />
+            {/* Below is testing for API call to get information from DB */}
+            <View style={{ marginTop: 30, flexDirection: 'row' }}>
+                {/* Button for testing  */}
+                <TouchableOpacity onPress={() => onGetTheListings() }>
+                    <View style={style.sortBtn}>
+                        <Icon size={30} color={COLORS.white} />
+                    </View>
+                </TouchableOpacity>
+                <Text style={[style.header,]}>{"Test" + getMessage()}</Text>
+            </View>
         </SafeAreaView >
     )
 
