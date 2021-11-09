@@ -9,12 +9,15 @@ const User = sequelize.define('users', {
       allowNull: false,
       primaryKey: true,
    },
+   //Server does a simple validation of Emails with form foo@bar.com
    email: {
       type: Sequelize.STRING,
       allowNull: false,
+      validate: {isEmail: true}
    },
    name: {
       type: Sequelize.STRING,
+      allowNull:false,
    },
    password: {
       type: Sequelize.STRING,
