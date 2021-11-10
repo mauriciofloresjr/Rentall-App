@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Dropdown } from 'react-native-element-dropdown';
 
 const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
+
+//List of Categories to use in Dropdown menu 
+const CategoryList = [
+    { label: 'Cooking', value: 'COOKING' },
+    { label: 'Furniture', value: 'FURNITURE' },
+    { label: 'Toys', value: 'TOYS' },
+    { label: 'Tech', value: 'TECH' },
+];
 
 
 const AddRentalScreen = ({ navigation }) => {
@@ -10,24 +20,19 @@ const AddRentalScreen = ({ navigation }) => {
     //message and error hooks to display error messages/success
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState(null);
     const [price, setPrice] = useState('');
-    var categories = ['COOKING', 'FURNITURE', 'TOYS', 'TECH'];
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState('');
 
-    //Possibly change categories to be implemented with a dropdown menu
-    //Function kindof validates correct category, does ignores case
-    function CategoryValidator(categories, input) {
-        var i = categories.length;
-
-        while(i--) {
-            if (categories[i] == input.toUpperCase()){
-                return true
-            }
-        return false;
-        }
-    }
+    //renders in text the items in the list inside the dropdown field
+    const _renderItem = item => {
+        return (
+          <View style={styles.item}>
+            <Text style={styles.textItem}>{item.label}</Text>
+          </View>
+        );
+    };
 
     //a function to check if the input for price is of the correct format,
     //which is a dollar sign is not allowed, and checks to see if commas are in correct spaces if used at all
@@ -41,12 +46,10 @@ const AddRentalScreen = ({ navigation }) => {
         }
     }
     
-    ///(CategoryValidator(categories, category) && 
     const onSubmitHandler = () => {
-        //Before submiting to server, checks category and price with validator function
-        //Bypassed for testing currently
-        if (title) {
-            //a valid category was entered, generate JSON
+        //Before submiting to server, checks price with validator function
+        if (priceValidator(price)) {
+            //a valid price was entered, generate JSON
             const payload = {
                 title: title,
                 description: description,
@@ -83,25 +86,45 @@ const AddRentalScreen = ({ navigation }) => {
         //an invalid category was entered, return an Error message to user
         else {
             setIsError(true)
-            setMessage("Invalid category or price entered!")
+            setMessage("Invalid price entered!")
         }
     };
 
-    
+    //A simple message handler function that checks if a message is an error or not, and displays it
     const getMessage = () => {
         const status = isError ? `Error: ` : `Success: `;
         return status + message;
     }
 
+    //Current issue/bug: Placeholder text in Dropdown menu wont display, thus wont show what option was picked
+    //after exiting the dropdown, but still functions properly
+    //Current issue: Icon is Box with X inside for my machine - RB
     return (
         < ImageBackground source={require('../public/images/basic-back.png')} style={styles.image} >
             <View style={styles.card}>
-                <Text style={styles.heading}>{'Add Listing'}</Text>
+                <Text style={styles.heading}>{'Create New Listing'}</Text>
                 <View style={styles.form}>
                     <View style={styles.inputs}>
-                        <TextInput style={styles.input} placeholder="Title" autoCapitalize="none" onChangeText={setTitle}></TextInput>
-                        <TextInput style={styles.input} placeholder="Description" onChangeText={setDescription}></TextInput>
-                        <TextInput style={styles.input} placeholder="Category" onChangeText={setCategory}></TextInput>
+                        <TextInput style={styles.input} maxLength = {100} placeholder="Title" autoCapitalize="none" onChangeText={setTitle}></TextInput>
+                        <TextInput style={styles.input} maxLength = {100} placeholder="Description, 100 char max" onChangeText={setDescription}></TextInput>
+                        <Dropdown
+                            style={styles.dropdown}
+                            selectedTextStyle={styles.input}
+                            data={CategoryList}
+                            search
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Select category"
+                            searchPlaceholder="Search..."
+                            value={category}
+                            onChange={item => {
+                            setCategory(item.value);
+                            }}
+                            renderLeftIcon={() => (
+                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+                            )}
+                            renderItem={item => _renderItem(item)}
+                        />
                         <TextInput style={styles.input} placeholder="Price, $ not necessary" onChangeText={setPrice}></TextInput>
                         <Text style={[styles.message, { color: isError ? 'red' : 'green' }]}>{message ? getMessage() : null}</Text>
                         <TouchableOpacity style={styles.button} onPress={onSubmitHandler} >
@@ -110,7 +133,6 @@ const AddRentalScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
-            <Text style={styles.buttonText}>{' \n Category must be only 1 of the following: \n "Cooking", \n "Toys", \n "Furniture", \n "Tech" '}</Text>
         </ImageBackground >
     );
 };
@@ -191,6 +213,27 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginVertical: '5%',
     },
+    dropdown: {
+        height: 40,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        margin: 15,
+      },
+      icon: {
+        marginRight: 5,
+        width: 225,
+      },
+      item: {
+        paddingVertical: 17,
+        paddingHorizontal: 4,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      },
+      textItem: {
+        flex: 1,
+        fontSize: 16,
+      },
 });
 
 
