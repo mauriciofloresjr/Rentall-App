@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RentalScreen, AuthScreen, RentalDetailsScreen, PaymentScreen, AddRentalScreen } from './screens';
+import { RentalScreen, AuthScreen, RentalDetailsScreen, PaymentScreen, AddRentalScreen, PrivacyPolicyScreen } from './screens';
 import COLORS from './consts/colors';
 
 const Stack = createNativeStackNavigator();
@@ -28,6 +28,7 @@ export default function App() {
         <NavigationContainer>
             <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
             <Stack.Navigator>
+                <Stack.Screen name="Privacy Policy" component={PrivacyPolicyScreen} options={{ headerShown: false }} />  
                 <Stack.Screen name="User Login" component={AuthScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Listings" component={RentalScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Details" component={RentalDetailsScreen} options={{ headerShown: false }} />
