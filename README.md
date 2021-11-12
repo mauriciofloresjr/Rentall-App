@@ -19,7 +19,9 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 
 # **Milestones**
 10/15/21 - User Authentication/Login Added
+
 11/2/21 - Add Listing Screen/Functionality Added
+
 11/11/21 - Privacy and Security Policy Screen Added
 
 
