@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { ImageBackground, Dimensions, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Dropdown } from 'react-native-element-dropdown';
 
-const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
+const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.2.3.90:5000';
 
 //List of Categories to use in Dropdown menu 
 const CategoryList = [
@@ -28,9 +28,9 @@ const AddRentalScreen = ({ navigation }) => {
     //renders in text the items in the list inside the dropdown field
     const _renderItem = item => {
         return (
-          <View style={styles.item}>
-            <Text style={styles.textItem}>{item.label}</Text>
-          </View>
+            <View style={styles.item}>
+                <Text style={styles.textItem}>{item.label}</Text>
+            </View>
         );
     };
 
@@ -39,13 +39,13 @@ const AddRentalScreen = ({ navigation }) => {
     //regex provided by Fong C.D. of regexlib.com
     function priceValidator(input) {
         var re = new RegExp("^(([1-9]\d{0,2}(\,\d{3})*|([1-9]\d*))(\.\d{2})?)|([0]\.(([0][1-9])|([1-9]\d)))$");
-         if (re.test(input)) {
+        if (re.test(input)) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     const onSubmitHandler = () => {
         //Before submiting to server, checks price with validator function
         if (priceValidator(price)) {
@@ -100,13 +100,13 @@ const AddRentalScreen = ({ navigation }) => {
     //after exiting the dropdown, but still functions properly
     //Current issue: Icon is Box with X inside for my machine - RB
     return (
-        < ImageBackground source={require('../public/images/basic-back.png')} style={styles.image} >
+        < ImageBackground source={require('../public/images/Rentall-App-Background.png')} style={styles.image} >
             <View style={styles.card}>
                 <Text style={styles.heading}>{'Create New Listing'}</Text>
                 <View style={styles.form}>
                     <View style={styles.inputs}>
-                        <TextInput style={styles.input} maxLength = {100} placeholder="Title" autoCapitalize="none" onChangeText={setTitle}></TextInput>
-                        <TextInput style={styles.input} maxLength = {100} placeholder="Description, 100 char max" onChangeText={setDescription}></TextInput>
+                        <TextInput style={styles.input} maxLength={100} placeholder="Title" autoCapitalize="none" onChangeText={setTitle}></TextInput>
+                        <TextInput style={styles.input} maxLength={100} placeholder="Description, 100 char max" onChangeText={setDescription}></TextInput>
                         <Dropdown
                             style={styles.dropdown}
                             selectedTextStyle={styles.input}
@@ -118,10 +118,10 @@ const AddRentalScreen = ({ navigation }) => {
                             searchPlaceholder="Search..."
                             value={category}
                             onChange={item => {
-                            setCategory(item.value);
+                                setCategory(item.value);
                             }}
                             renderLeftIcon={() => (
-                            <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+                                <AntDesign style={styles.icon} color="black" name="appstore-o" size={20} />
                             )}
                             renderItem={item => _renderItem(item)}
                         />
@@ -142,10 +142,13 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     },
     card: {
         flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
         width: '80%',
         marginTop: '40%',
         borderRadius: 20,
@@ -218,22 +221,22 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         margin: 15,
-      },
-      icon: {
+    },
+    icon: {
         marginRight: 5,
         width: 225,
-      },
-      item: {
+    },
+    item: {
         paddingVertical: 17,
         paddingHorizontal: 4,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-      },
-      textItem: {
+    },
+    textItem: {
         flex: 1,
         fontSize: 16,
-      },
+    },
 });
 
 

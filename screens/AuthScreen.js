@@ -19,9 +19,10 @@ SOFTWARE.
 */
 
 import React, { useState } from 'react';
-import { ImageBackground, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { ImageBackground, Image, View, Text, StyleSheet, TouchableOpacity, TextInput, Platform, Dimensions } from 'react-native';
+import COLORS from '../consts/colors';
 
-const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.0.0.112:5000';
+const API_URL = Platform.OS === 'ios' ? 'http://localhost:5000' : 'http://10.2.3.90:5000';
 
 //Checks an attempted user password against the regular expression.
 //The regular expression calls for: At least one uppercase English letter,
@@ -124,8 +125,9 @@ function AuthScreen({ navigation }) {
     }
 
     return (
-        < ImageBackground source={require('../public/images/basic-back.png')} style={styles.image} >
+        < ImageBackground source={require('../public/images/Rentall-App-Background.png')} style={styles.image} >
             <View style={styles.card}>
+                <Image source={require('../public/images/Rentall-Logo.png')} style={{ width: 50, height: 60, marginLeft: 150, marginTop: 25 }} />
                 <Text style={styles.heading}>{isLogin ? 'Login' : 'Signup'}</Text>
                 <View style={styles.form}>
 
@@ -143,7 +145,7 @@ function AuthScreen({ navigation }) {
                     </View>
                 </View>
             </View>
-            <Text style={styles.buttonText}>{isLogin ? '' : ' \n Passwords must have: \n at least 8 characters \n a letter \n a number \n a special character: \n i.e. !@#$%^&*  '}</Text>
+            <Text style={styles.buttonText}>{isLogin ? '' : ' \n Passwords must have: \n- at least 8 characters \n- a letter \n- a number \n- a special character: \n i.e. !@#$%^&*  '}</Text>
         </ImageBackground >
     );
 };
@@ -153,14 +155,17 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
+        position: 'absolute',
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
     },
     card: {
         flex: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
         width: '80%',
         marginTop: '40%',
         borderRadius: 20,
-        maxHeight: 380,
+        maxHeight: 450, //380
         paddingBottom: '30%',
     },
     heading: {
@@ -184,16 +189,18 @@ const styles = StyleSheet.create({
         paddingTop: '10%',
     },
     input: {
-        width: '80%',
-        borderBottomWidth: 1,
-        borderBottomColor: 'black',
-        paddingTop: 10,
+        marginTop: 10,
+        width: 300,
+        height: 40,
+        backgroundColor: COLORS.gray,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 15,
         fontSize: 16,
-        minHeight: 40,
     },
     button: {
         width: '80%',
-        backgroundColor: '#21C489', //changed color for visual spice
+        backgroundColor: COLORS.darkGreen, //changed color for visual spice
         height: 40,
         borderRadius: 50,
         justifyContent: 'center',
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 16,
-        fontWeight: '400'
+        fontWeight: 'bold'
     },
     buttonAlt: {
         width: '80%',
