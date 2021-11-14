@@ -117,7 +117,7 @@ const style = StyleSheet.create({
         flex: 1,
     },
     YesBtn: {
-        marginLeft: 65,
+        marginLeft: 40,
         marginBottom: 25,
         height: 50,
         width: 150,
