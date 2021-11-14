@@ -6,6 +6,7 @@ import { Image } from 'react-native';
 const width = Dimensions.get('screen').width / 2 - 30
 
 const PrivacyPolicyScreen = ({ navigation }) => {
+
     return (
         // Entire screen is in this SafeAreaView
         <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white }}>
@@ -66,6 +67,7 @@ const PrivacyPolicyScreen = ({ navigation }) => {
                 </Text>
             </View>
             {/* Buttons for declining/accepting policy */}
+            </ScrollView>
             <View style={{ marginTop: 30, flexDirection: 'row' }}>
                 {/* No Button requires platform specific implementation so left to do nothing */}
                 <TouchableOpacity onPress={null}>
@@ -75,15 +77,13 @@ const PrivacyPolicyScreen = ({ navigation }) => {
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={navigation.navigate('User Login')}>
-                    <View style={style.YesBtn}>
-                        <Text style={{ fontSize: 14, fontWeight: 'bold', color: COLORS.black, marginTop: 1, }}>
-                            {"I Agree"}
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                {/*I agree button*/}
+                <TouchableOpacity onPress={() => navigation.navigate('User Login') } >
+                        <View style={style.YesBtn}>
+                            <Text style={{ fontSize: 15, color: COLORS.white, fontWeight: 'bold' }}>I Accept</Text>
+                        </View>
+                    </TouchableOpacity >
             </View>
-            </ScrollView>
         </SafeAreaView >
     )
 
