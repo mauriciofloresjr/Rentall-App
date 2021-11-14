@@ -11,54 +11,46 @@ import { Header } from "native-base";
 ''
 
 const PaymentScreen = ({ navigation }) => {
-    const [text, onChangeText] = React.useState("First Name");
-  const [number, onChangeNumber] = React.useState(null);
-  const[last, onChangeLast] = React.useState("Last Name");
-  const [lastName, onChangeLastName] = React.useState(null);
-const [card, onChangeCard]= React.useState("Card Information");
+    //contains useStates for all fields
+const [first, onChangeFirst] = React.useState(null);
+const[last, onChangeLast] = React.useState(null);
 const [cardnumber, onChangeCardNumber]= React.useState(null);
-const [Exp, onChangeExp]= React.useState("Experation");
 const [Expnumber, onChangeExpNumber]= React.useState(null);
-const [CCV, onChangeCCV]= React.useState("CCV");
-const [CCVnumber, onChangeCCVNumber]= React.useState(null);
-const [Bill, onChangebill]= React.useState("Billling");
+const [CCV, onChangeCCV]= React.useState(null);
 const [billing, onChangebillNumber]= React.useState(null);
 
   return (
     <SafeAreaView>
-      
+        {/* Whole screen in SafeAreaView */}
         <ImageBackground source = {require ('../public/images/gradient-back.jpeg')}style={{position: 'absolute',color: 'white',width:'100%', height: '200%'}} />
-      
-    
-    
          < Image source={require('../public/images/backgroudpaypal.png')} style={{width: 400, height: 150, marginRight: 0,marginTop:20 }} /> 
-       <TextInput style = {styles.input}onChangeCardNumber={onChangeCardNumber} value= {cardnumber} placeholder = "Card information" keyboardType = "numeric"
-      />
+        <TextInput style = {styles.input}onChangeCardNumber={onChangeCardNumber} maxLength = {16} value= {cardnumber} placeholder = "Card information" keyboardType = "numeric"/>
      
       <View style={styles.stacks} >
-      <TextInput style={styles.stacks}onChangeText={onChangeExpNumber}value={number}placeholder="EXP(DDYY) "keyboardType = "numeric" maxLength = {4}
+          {/* Each TextInput is a field with its associated placeholder and state */}
+      <TextInput style={styles.stacks}onChangeText={onChangeExpNumber}value={Expnumber}placeholder="EXP(DDYY) "keyboardType = "numeric" maxLength = {4}
       />
-      <TextInput style={styles.stacks}onChangeText={onChangeCCV}value={number}placeholder="CCV"keyboardType = "numeric" maxLength = {3}
+      <TextInput style={styles.stacks}onChangeText={onChangeCCV}value={CCV}placeholder="CCV"keyboardType = "numeric" maxLength = {3}
       />
       </View>
       <View style={styles.stacks} >
-      <TextInput style={styles.input}onChangeText={onChangeNumber}value={number}placeholder="First Name"
+      <TextInput style={styles.input}onChangeText={onChangeFirst}value={first}placeholder="First Name"
       />
-      <TextInput style={styles.input}onChangeText={onChangeNumber}value={number}placeholder="Last Name"
+      <TextInput style={styles.input}onChangeText={onChangeLast}value={last}placeholder="Last Name"
       />
       </View>
-      <TextInput style = {styles.input}onChangeCardNumber={onChangebillNumber} value= {cardnumber} placeholder = "Billing Zip Code" keyboardType = "numeric" maxLength ={5}
+      <TextInput style = {styles.input}onChangeCardNumber={onChangebillNumber} value= {billing} placeholder = "Billing Zip Code" keyboardType = "numeric" maxLength ={5}
       />
       <View 
          style = {styles.inputs}>
-          
+          {/* Display Success message after confirm button*/}
         <Button 
-        
         style = {styles.inputs} title = "Confirm" onPress = { () =>  navigation.goBack(Alert.alert(" Success Rental Complete"))}
       />
       </View>
       <View 
       style = {styles.inputs}>
+            {/* Exit button to go back to previous screen*/}
       <Button 
         title = "Exit"  onPress = { () =>  navigation.goBack()}
       />
