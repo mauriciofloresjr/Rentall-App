@@ -19,9 +19,6 @@ GitHub repo for Rentall App from SHSU's Software Engineering project.
 ## Create Listing Screen
 ![Rentall-Create-Listings-Screen](https://user-images.githubusercontent.com/28638971/141705397-8818ec1b-b681-4efb-87a3-434672faf17c.png)
 
-## Payment Screen
-![Rentall-Payments-Screen](https://user-images.githubusercontent.com/28638971/141705378-b68ecb67-1c50-41fa-808d-0f74facbb0a1.png)
-
 
 # **Milestones**
 10/15/21 - User Authentication/Login Added
